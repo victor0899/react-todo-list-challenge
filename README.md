@@ -3,7 +3,7 @@
 Steps
 - Fork this repo to your account
 
-- Create a TODO list React project
+- Create a TODO list Vanilla JS project
 
 ### Criterias
 - Validate form fields (inputs, textareas, checkboxes, buttons)
