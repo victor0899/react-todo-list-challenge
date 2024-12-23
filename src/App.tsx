@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { TodoForm } from "./components/TodoForm";
+import { TodoList } from "./components/TodoList";
+import { useTodos } from "./hooks/useTodos";
+import { Navbar } from './components/Navbar';
+import { About } from './components/About';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './index.css';
+import { Todo } from "./types/todo";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { todos, addTodo } = useTodos();
+
+  const handleAddTodo = (todo: Todo) => {
+    addTodo(todo);
+    toast.success('Todo added successfully!');
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <BrowserRouter>
+      <div className="min-h-screen flex justify-center">
+        <div className="w-full max-w-5xl px-4">
+          <Navbar />
+          <Routes>
+            <Route path="/" element={
+              <div className="p-4">
+                <h1 className="text-2xl font-bold mb-4 text-center">React To Do List Challenge</h1>
+                <TodoForm onSubmit={handleAddTodo} />
+                <TodoList todos={todos} />
+              </div>
+            } />
+            <Route path="/about" element={<About />} />
+          </Routes>
+          <ToastContainer />
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
